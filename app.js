@@ -21,23 +21,23 @@ mongoose.connect(`mongodb+srv://LordKitetsu:${securedPass}@cluster0.l5dme.mongod
 mongoose.set('useCreateIndex', true);
 
 app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-    res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content, Accept, Content-Type, Authorization');
+    res.setHeader('Access-Control-Allow-Origin',  '*');
+    res.setHeader('Access-Control-Allow-Headers', 'Origin, Access-Control-Allow-Headers, X-Requested-With, Content, Accept, Content-Type, Authorization');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
     next();
   });
 
 app.set('trust-proxy', 1); // Fais confiance au premier proxy
-app.use(session({
+/* app.use(session({
   secret: cookiePass,
   cookie: { secure: true,
             httpOnly: true,
-            domain: 'http://localhost:3000',
+            domain: '*'
           },
   resave: true,
   saveUninitialized: false
   })
-);
+); */
 
 app.use(helmet());
 
@@ -46,7 +46,7 @@ app.use(bodyParser.json());
 app.use('/images', express.static(path.join(__dirname, 'images')));
 
 app.use('/api/sauces', sauceRoutes);
-app.use('api/auth', userRoutes);
+app.use('/api/auth', userRoutes);
 
 
 
